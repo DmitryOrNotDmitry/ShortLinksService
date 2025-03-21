@@ -1,42 +1,23 @@
 package ny.dmitrium.linkCreate;
 
+import ny.dmitrium.linkCreate.entity.Link;
+import ny.dmitrium.linkCreate.entity.LinkService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import org.springframework.web.server.ServerWebExchange;
 
 @RestController
 @RequestMapping("/link")
 public class LinkController {
 
-    private MessageDigest messageDigest;
-
-    private String hashMD5(String longLink) {
-
-        if (messageDigest == null) {
-            try {
-                messageDigest = MessageDigest.getInstance("MD5");
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        byte[] hashBytes = messageDigest.digest(longLink.getBytes());
-
-        StringBuilder hexString = new StringBuilder();
-        for (byte b : hashBytes) {
-            hexString.append(String.format("%02x", b));
-        }
-
-        return hexString.toString();
-    }
+    @Autowired
+    private LinkService linkService;
 
     @PostMapping()
-    public Mono<ResponseEntity<Link>> createLink(@RequestBody String longLink) {
-        return Mono.justOrEmpty(ResponseEntity.ok(new Link(hashMD5(longLink), longLink)))
+    public Mono<ResponseEntity<Link>> createLink(@RequestBody Link longLink) {
+        return Mono.justOrEmpty(ResponseEntity.ok(linkService.createByLong(longLink.getLongLink())))
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 }
