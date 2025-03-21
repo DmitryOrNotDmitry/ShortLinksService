@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сокращение ссылки</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Сокращение ссылки</h2>
+    <input type="text" id="urlInput" placeholder="Вставьте ссылку">
+    <button onclick="shortenLink()">Сократить</button>
+    <div id="result" class="result">
+        <p><strong>Сокращенная ссылка:</strong></p>
+        <a href="" id="shortenedLink" target="_blank"></a>
+    </div>
+</div>
+
+<script>
+    async function shortenLink() {
+        const url = document.getElementById('urlInput').value;
+
+        if (url.trim() === '') {
+            alert('Пожалуйста, введите ссылку!');
+            return;
+        }
+
+        const apiUrl = 'http://localhost:8080/api/link';
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'Post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ longLink: url })
+            });
+
+            if (!response.ok) {
+                throw new Error('Ошибка при запросе на сервер');
+            }
+
+            const data = await response.json();
+            console.log(data);
+            const resultDiv = document.getElementById('result');
+            const shortenedLink = document.getElementById('shortenedLink');
+            shortenedLink.href = data.shortLink;
+            shortenedLink.textContent = data.shortLink;
+            resultDiv.style.display = 'block';
+
+        } catch (error) {
+            alert('Произошла ошибка: ' + error.message);
+        }
+    }
+</script>
+
+</body>
+</html>
