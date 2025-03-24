@@ -15,7 +15,7 @@ public class LinkController {
     @Autowired
     private LinkService linkService;
 
-    @PostMapping()
+    @PostMapping
     public Mono<ResponseEntity<Link>> createLink(@RequestBody Link longLink) {
         return Mono.justOrEmpty(ResponseEntity.ok(linkService.createByLong(longLink.getLongLink())))
                 .defaultIfEmpty(ResponseEntity.notFound().build());
