@@ -1,0 +1,31 @@
+services:
+  gateway:
+    build:
+      context: ./gateway
+    ports:
+      - "8080:8080"
+    networks:
+      - db_network
+    depends_on:
+      - link_shortener
+      - redirect_service
+
+  link_shortener:
+    build:
+      context: ./linkCreate
+    ports:
+      - "8081:8081"
+    networks:
+      - db_network
+
+  redirect_service:
+    build:
+      context: ./redirect
+    ports:
+      - "8082:8082"
+    networks:
+      - db_network
+     
+networks:
+  db_network:
+    external: true
