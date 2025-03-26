@@ -4,6 +4,4 @@ WORKDIR /app
 
 COPY target/*.jar redirectService.jar
 
-EXPOSE 8082
-
-ENTRYPOINT ["java", "-jar", "redirectService.jar"]
+ENTRYPOINT ["java", "-Ddb.url=jdbc:postgresql://host.minikube.internal:5432/links_db", "-jar", "redirectService.jar"]

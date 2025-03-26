@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redirecting
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redirecting
+  template:
+    metadata:
+      labels:
+        app: redirecting
+    spec:
+      containers:
+        - name: redirecting
+          image: redirecting
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8082
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redirecting-service
+spec:
+  selector:
+    app: redirecting
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8082
+  type: ClusterIP

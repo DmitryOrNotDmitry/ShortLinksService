@@ -1,0 +1,13 @@
+cd E:\GitProjs\ShortLinksService\k8s
+
+minikube -p minikube docker-env | Invoke-Expression
+
+docker build -t gateway ..\gateway\.
+docker build -t link-shortener ..\linkCreate\.
+docker build -t redirecting ..\redirect\.
+                
+kubectl.exe delete deployment --all
+kubectl apply -f .\deployment-gateway.yaml -f .\deployment-link-shortener.yaml -f .\deployment-redirecting.yaml
+
+kubectl get pods
+kubectl port-forward pod/<gateway_name> 8085:8085

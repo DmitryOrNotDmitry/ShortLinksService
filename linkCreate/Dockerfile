@@ -4,6 +4,4 @@ WORKDIR /app
 
 COPY target/*.jar createLink.jar
 
-EXPOSE 8081
-
-ENTRYPOINT ["java", "-jar", "createLink.jar"]
+ENTRYPOINT ["java", "-Ddb.url=jdbc:postgresql://host.minikube.internal:5432/links_db", "-jar", "createLink.jar"]
