@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: link-create-service
+    name: link-shortener
   cloud:
     discovery:
       enabled: true
@@ -13,3 +13,6 @@ management:
     web:
       exposure:
         include: health, info
+
+db:
+  url: jdbc:postgresql://localhost:5432/links_db

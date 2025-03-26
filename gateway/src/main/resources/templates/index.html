@@ -84,7 +84,7 @@
             return;
         }
 
-        const apiUrl = 'http://localhost:8080/api/link';
+        const apiUrl = 'http://localhost:8085/link';
 
         try {
             const response = await fetch(apiUrl, {
@@ -96,6 +96,7 @@
             });
 
             if (!response.ok) {
+                console.error("Ошибка от сервера:", response.text());
                 throw new Error('Ошибка при запросе на сервер');
             }
 

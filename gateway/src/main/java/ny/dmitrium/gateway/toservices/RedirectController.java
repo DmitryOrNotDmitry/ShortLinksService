@@ -1,5 +1,7 @@
-package ny.dmitrium.gateway;
+package ny.dmitrium.gateway.toservices;
 
+import ny.dmitrium.gateway.Link;
+import ny.dmitrium.gateway.config.ServicesConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,9 @@ public class RedirectController {
     @Autowired
     private WebClient.Builder webClientBuilder;
 
+    @Autowired
+    private ServicesConfig servicesConfig;
+
     @GetMapping("/to/{hash}")
     public Mono<ResponseEntity<Object>> redirectTo(@PathVariable(name = "hash") String hash) {
         Link linkWithHash = new Link();
@@ -25,7 +30,7 @@ public class RedirectController {
 
         return webClientBuilder.build()
                 .post()
-                .uri("http://localhost:8082/to")
+                .uri(servicesConfig.getRedirect() + "/to")
                 .bodyValue(linkWithHash)
                 .retrieve()
                 .bodyToMono(Link.class)

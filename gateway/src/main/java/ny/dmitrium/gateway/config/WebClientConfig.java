@@ -1,4 +1,4 @@
-package ny.dmitrium.gateway;
+package ny.dmitrium.gateway.config;
 
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
