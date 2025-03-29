@@ -1,0 +1,7 @@
+FROM openjdk:21-jdk-slim
+
+WORKDIR /app
+
+COPY target/*.jar redirectService.jar
+
+ENTRYPOINT ["java", "-Ddb.url=jdbc:postgresql://my_postgres:5432/links_db", "-jar", "redirectService.jar"]

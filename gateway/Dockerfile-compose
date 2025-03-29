@@ -1,0 +1,9 @@
+FROM openjdk:21-jdk-slim
+
+RUN apt update && apt install -y curl
+
+WORKDIR /app
+
+COPY target/*.jar gateway.jar
+
+ENTRYPOINT ["java", "-Dservices.linkcreate=http://link-shortener:8081", "-Dservices.redirect=http://redirect-service:8082", "-jar", "gateway.jar"]

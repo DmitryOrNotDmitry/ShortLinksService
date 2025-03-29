@@ -1,0 +1,30 @@
+services:
+  gateway:
+    build: 
+      context: ./gateway
+      dockerfile: Dockerfile-compose
+    ports:
+      - "8085:8085"
+    networks:
+      - db_network
+    depends_on:
+      - link-shortener
+      - redirect-service
+
+  link-shortener:
+    build: 
+      context: ./linkCreate
+      dockerfile: Dockerfile-compose
+    networks:
+      - db_network
+
+  redirect-service:
+    build: 
+      context: ./redirect
+      dockerfile: Dockerfile-compose
+    networks:
+      - db_network
+     
+networks:
+  db_network:
+    external: true

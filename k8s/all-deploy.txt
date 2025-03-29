@@ -1,3 +1,6 @@
+minikube start   (для настройки kubectl)
+
+
 cd E:\GitProjs\ShortLinksService\k8s
 
 minikube -p minikube docker-env | Invoke-Expression

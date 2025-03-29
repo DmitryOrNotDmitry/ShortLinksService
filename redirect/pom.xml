@@ -74,6 +74,9 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<finalName>
+			redirectService
+		</finalName>
 	</build>
 
 </project>
